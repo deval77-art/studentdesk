@@ -179,6 +179,8 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
  .stat-number{font-size:23px}
 }
 </style>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#2563eb"> 
 </head>
 
 <body>
@@ -1066,6 +1068,15 @@ function renderAll(){
 buildNavigation();
 applyTheme();
 renderAll();
-</script>
+</script> 
+ <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(() => console.log("StudentDesk offline support enabled"))
+      .catch(error => console.error("Service worker error:", error));
+  });
+}
+ </script>
 </body>
 </html>
