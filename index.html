@@ -1,0 +1,1071 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6558df">
+<title>StudentDesk Pro</title>
+
+<style>
+:root {
+ --bg:#f4f5fb;
+ --surface:#fff;
+ --text:#20223a;
+ --muted:#85889d;
+ --primary:#6558df;
+ --primary-light:#efedff;
+ --border:#e9eaf2;
+ --green:#169b70;
+ --red:#df5555;
+ --orange:#df963b;
+ --shadow:0 8px 28px rgba(35,35,80,.055);
+}
+body.dark {
+ --bg:#151725;
+ --surface:#222438;
+ --text:#f5f5ff;
+ --muted:#a4a6bb;
+ --primary:#9287ff;
+ --primary-light:#35304e;
+ --border:#36384d;
+ --green:#45c79b;
+ --red:#ff7777;
+ --orange:#f4b85f;
+ --shadow:0 8px 28px rgba(0,0,0,.15);
+}
+*{box-sizing:border-box}
+body{
+ margin:0;background:var(--bg);color:var(--text);
+ font-family:Inter,Arial,sans-serif;
+ transition:.2s;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:1250px;margin:auto;padding:18px}
+header{
+ display:flex;align-items:center;justify-content:space-between;
+ gap:15px;margin-bottom:22px;
+}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{
+ background:var(--primary);color:white;
+ width:43px;height:43px;border-radius:14px;
+ display:grid;place-items:center;font-weight:800;
+}
+.brand h2{font-size:20px;margin:0}
+.brand small{color:var(--muted)}
+.header-actions{display:flex;gap:8px}
+.icon-btn{
+ border:1px solid var(--border);background:var(--surface);
+ color:var(--text);padding:10px 13px;border-radius:11px;
+}
+.layout{display:grid;grid-template-columns:205px 1fr;gap:20px}
+.sidebar{
+ background:var(--surface);border:1px solid var(--border);
+ border-radius:17px;padding:13px;height:fit-content;
+ position:sticky;top:12px;
+}
+.nav-btn{
+ width:100%;padding:13px 12px;border:0;
+ background:transparent;color:var(--muted);
+ text-align:left;border-radius:10px;margin:3px 0;
+}
+.nav-btn.active{
+ background:var(--primary-light);color:var(--primary);
+ font-weight:700;
+}
+main{min-width:0}
+.page{display:none}
+.page.active{display:block}
+h1{font-size:27px;margin:0 0 7px}
+h2{font-size:19px}
+h3{font-size:16px;margin:0 0 14px}
+.muted{color:var(--muted)}
+.small{font-size:12px}
+.subheading{margin-bottom:22px}
+.card{
+ background:var(--surface);border:1px solid var(--border);
+ border-radius:16px;padding:19px;margin-bottom:16px;
+ box-shadow:var(--shadow);
+}
+.stats{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:13px;margin:20px 0;
+}
+.stat-card{
+ background:var(--surface);border:1px solid var(--border);
+ padding:18px;border-radius:15px;
+}
+.stat-icon{font-size:20px}
+.stat-number{font-size:27px;font-weight:800;margin:13px 0 4px}
+.stat-label{font-size:13px;color:var(--muted)}
+.columns{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.form-grid{
+ display:grid;grid-template-columns:repeat(2,1fr);gap:11px;
+}
+input,select{
+ width:100%;padding:12px;border-radius:10px;
+ border:1px solid var(--border);
+ background:var(--bg);color:var(--text);outline:none;
+}
+input:focus,select:focus{border-color:var(--primary)}
+label{font-size:13px;color:var(--muted)}
+.field{display:flex;flex-direction:column;gap:6px}
+.btn{
+ border:0;border-radius:10px;padding:11px 15px;
+ font-weight:700;
+}
+.btn-primary{background:var(--primary);color:white}
+.btn-secondary{
+ background:var(--primary-light);color:var(--primary);
+}
+.btn-danger{background:transparent;color:var(--red);border:1px solid var(--red)}
+.btn-small{padding:7px 10px;font-size:12px}
+.actions{display:flex;gap:7px;flex-wrap:wrap}
+.item{
+ padding:14px 0;border-bottom:1px solid var(--border);
+}
+.item:last-child{border-bottom:0}
+.item-top{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.progress{
+ height:8px;background:var(--border);
+ border-radius:20px;overflow:hidden;margin:10px 0;
+}
+.bar{height:100%;background:var(--green);border-radius:20px}
+.tag{
+ display:inline-block;padding:5px 9px;border-radius:20px;
+ background:var(--primary-light);color:var(--primary);
+ font-size:11px;font-weight:700;
+}
+.tag.red{background:#ffe9e9;color:#c33}
+.tag.green{background:#e2f7ed;color:#16865e}
+.empty{text-align:center;padding:25px;color:var(--muted)}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar input{flex:1;min-width:140px}
+.check-row{display:flex;align-items:center;gap:9px}
+.check-row input{width:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+td,th{padding:12px 8px;border-bottom:1px solid var(--border);text-align:left}
+th{color:var(--muted)}
+.table-wrap{overflow-x:auto}
+.toast{
+ position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+ background:#25243a;color:white;padding:12px 19px;
+ border-radius:12px;display:none;z-index:10;
+ box-shadow:var(--shadow);
+}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+.mobile-nav{display:none}
+@media(max-width:800px){
+ .layout{grid-template-columns:1fr}
+ .sidebar{display:none}
+ .mobile-nav{
+  display:flex;overflow-x:auto;gap:6px;
+  margin-bottom:16px;padding-bottom:5px;
+ }
+ .mobile-nav .nav-btn{width:auto;white-space:nowrap}
+ .stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:520px){
+ .app{padding:12px}
+ .columns{grid-template-columns:1fr}
+ .form-grid{grid-template-columns:1fr}
+ h1{font-size:23px}
+ .card{padding:15px}
+ .brand h2{font-size:17px}
+ .stats{gap:9px}
+ .stat-card{padding:13px}
+ .stat-number{font-size:23px}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+<header>
+ <div class="brand">
+  <div class="logo">SD</div>
+  <div>
+   <h2>StudentDesk <span style="color:var(--primary)">Pro</span></h2>
+   <small>Your academic workspace</small>
+  </div>
+ </div>
+ <div class="header-actions">
+  <button class="icon-btn" onclick="toggleTheme()">◐</button>
+  <button class="icon-btn" onclick="backupData()">↓ Backup</button>
+ </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav"></div>
+
+<div class="layout">
+<aside class="sidebar" id="sidebar"></aside>
+
+<main>
+
+<!-- DASHBOARD -->
+<section class="page active" id="dashboard">
+ <div class="subheading">
+  <h1>Dashboard</h1>
+  <p class="muted">Your academic progress at a glance.</p>
+ </div>
+
+ <div class="stats">
+  <div class="stat-card">
+   <div class="stat-icon">📚</div>
+   <div class="stat-number" id="sSubjects">0</div>
+   <div class="stat-label">Subjects</div>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon">📊</div>
+   <div class="stat-number" id="sAttendance">0%</div>
+   <div class="stat-label">Overall attendance</div>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon">📝</div>
+   <div class="stat-number" id="sTasks">0</div>
+   <div class="stat-label">Pending assignments</div>
+  </div>
+  <div class="stat-card">
+   <div class="stat-icon">🎯</div>
+   <div class="stat-number" id="sExams">0</div>
+   <div class="stat-label">Upcoming exams</div>
+  </div>
+ </div>
+
+ <div class="columns">
+  <div class="card">
+   <h3>📈 Attendance overview</h3>
+   <div id="dashAttendance"></div>
+  </div>
+  <div class="card">
+   <h3>⏰ Upcoming deadlines</h3>
+   <div id="dashTasks"></div>
+  </div>
+ </div>
+
+ <div class="card">
+  <h3>🎓 Upcoming examinations</h3>
+  <div id="dashExams"></div>
+ </div>
+</section>
+
+<!-- ATTENDANCE -->
+<section class="page" id="attendance">
+ <div class="subheading">
+  <h1>Attendance Manager</h1>
+  <p class="muted">Monitor and manage every subject.</p>
+ </div>
+
+ <div class="card">
+  <h3 id="subjectFormTitle">Add new subject</h3>
+  <div class="form-grid">
+   <div class="field">
+    <label>Subject name</label>
+    <input id="subName" placeholder="e.g. Mathematics">
+   </div>
+   <div class="field">
+    <label>Total classes</label>
+    <input id="subTotal" type="number" min="1" placeholder="40">
+   </div>
+   <div class="field">
+    <label>Classes attended</label>
+    <input id="subPresent" type="number" min="0" placeholder="32">
+   </div>
+   <div class="field">
+    <label>Classes required percentage</label>
+    <input id="subTarget" type="number" min="1" max="100" value="75">
+   </div>
+  </div>
+  <div class="actions" style="margin-top:13px">
+   <button class="btn btn-primary" onclick="saveSubject()">Save subject</button>
+   <button class="btn btn-secondary" onclick="resetSubjectForm()">Cancel</button>
+  </div>
+  <input type="hidden" id="subEdit">
+ </div>
+
+ <div class="card">
+  <h3>Your subjects</h3>
+  <div id="subjectList"></div>
+ </div>
+</section>
+
+<!-- ASSIGNMENTS -->
+<section class="page" id="assignments">
+ <div class="subheading">
+  <h1>Assignment Manager</h1>
+  <p class="muted">Plan your work and meet your deadlines.</p>
+ </div>
+
+ <div class="card">
+  <h3 id="taskFormTitle">Create assignment</h3>
+  <div class="form-grid">
+   <div class="field">
+    <label>Assignment title</label>
+    <input id="taskName" placeholder="e.g. Calculus Tutorial 2">
+   </div>
+   <div class="field">
+    <label>Subject</label>
+    <input id="taskSubject" placeholder="Mathematics">
+   </div>
+   <div class="field">
+    <label>Deadline</label>
+    <input id="taskDate" type="date">
+   </div>
+  </div>
+  <div class="actions" style="margin-top:13px">
+   <button class="btn btn-primary" onclick="saveTask()">Save assignment</button>
+   <button class="btn btn-secondary" onclick="resetTaskForm()">Cancel</button>
+  </div>
+  <input type="hidden" id="taskEdit">
+ </div>
+
+ <div class="card">
+  <div class="toolbar">
+   <input id="taskSearch" placeholder="Search assignments..." oninput="renderTasks()">
+   <select id="taskFilter" onchange="renderTasks()">
+    <option value="all">All tasks</option>
+    <option value="pending">Pending</option>
+    <option value="completed">Completed</option>
+   </select>
+  </div>
+  <div id="taskList"></div>
+ </div>
+</section>
+
+<!-- TIMETABLE -->
+<section class="page" id="timetable">
+ <div class="subheading">
+  <h1>Weekly Timetable</h1>
+  <p class="muted">Organize your college schedule.</p>
+ </div>
+
+ <div class="card">
+  <h3 id="classFormTitle">Add a class</h3>
+  <div class="form-grid">
+   <div class="field">
+    <label>Subject</label>
+    <input id="className" placeholder="Physics">
+   </div>
+   <div class="field">
+    <label>Day</label>
+    <select id="classDay">
+     <option>Monday</option><option>Tuesday</option>
+     <option>Wednesday</option><option>Thursday</option>
+     <option>Friday</option><option>Saturday</option>
+     <option>Sunday</option>
+    </select>
+   </div>
+   <div class="field">
+    <label>Start time</label>
+    <input id="classTime" type="time">
+   </div>
+   <div class="field">
+    <label>End time</label>
+    <input id="classEnd" type="time">
+   </div>
+  </div>
+  <div class="actions" style="margin-top:13px">
+   <button class="btn btn-primary" onclick="saveClass()">Save class</button>
+   <button class="btn btn-secondary" onclick="resetClassForm()">Cancel</button>
+  </div>
+  <input type="hidden" id="classEdit">
+ </div>
+
+ <div class="card">
+  <h3>Your weekly schedule</h3>
+  <div id="classList"></div>
+ </div>
+</section>
+
+<!-- EXAMS -->
+<section class="page" id="exams">
+ <div class="subheading">
+  <h1>Exam Planner</h1>
+  <p class="muted">Prepare ahead of examination dates.</p>
+ </div>
+
+ <div class="card">
+  <h3 id="examFormTitle">Add an examination</h3>
+  <div class="form-grid">
+   <div class="field">
+    <label>Exam name</label>
+    <input id="examName" placeholder="Semester examination">
+   </div>
+   <div class="field">
+    <label>Subject</label>
+    <input id="examSubject" placeholder="Mathematics">
+   </div>
+   <div class="field">
+    <label>Exam date</label>
+    <input id="examDate" type="date">
+   </div>
+  </div>
+  <div class="actions" style="margin-top:13px">
+   <button class="btn btn-primary" onclick="saveExam()">Save exam</button>
+   <button class="btn btn-secondary" onclick="resetExamForm()">Cancel</button>
+  </div>
+  <input type="hidden" id="examEdit">
+ </div>
+
+ <div class="card">
+  <h3>Your examinations</h3>
+  <div id="examList"></div>
+ </div>
+</section>
+
+<!-- SETTINGS -->
+<section class="page" id="settings">
+ <div class="subheading">
+  <h1>Settings & Data</h1>
+  <p class="muted">Manage your application.</p>
+ </div>
+ <div class="card">
+  <h3>💾 Backup your information</h3>
+  <p class="muted small">Download your subjects, assignments, timetable and exams as a JSON file.</p>
+  <button class="btn btn-primary" onclick="backupData()">Download backup</button>
+ </div>
+ <div class="card">
+  <h3>📂 Restore information</h3>
+  <p class="muted small">Choose a previously exported StudentDesk backup.</p>
+  <input type="file" id="restoreFile" accept=".json,application/json">
+  <button class="btn btn-primary" style="margin-top:12px" onclick="restoreData()">Restore backup</button>
+ </div>
+ <div class="card">
+  <h3>🌙 Appearance</h3>
+  <p class="muted small">Switch between light and dark modes.</p>
+  <button class="btn btn-secondary" onclick="toggleTheme()">Change theme</button>
+ </div>
+ <div class="card">
+  <h3>⚠️ Reset application</h3>
+  <p class="muted small">This permanently clears the data stored by this application in this browser.</p>
+  <button class="btn btn-danger" onclick="resetApp()">Reset all data</button>
+ </div>
+ <div class="card">
+  <h3>About StudentDesk Pro</h3>
+  <p class="muted small">Version 2.0 · Student productivity application.</p>
+  <p class="muted small">Built with HTML, CSS and JavaScript.</p>
+ </div>
+</section>
+
+</main>
+</div>
+
+<footer>StudentDesk Pro · Organize better. Learn better.</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+
+/* DATA */
+
+const KEY = "studentdesk_pro_v2";
+
+const emptyData = () => ({
+ subjects:[],
+ tasks:[],
+ classes:[],
+ exams:[],
+ dark:false
+});
+
+function loadData(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(KEY));
+  if(!saved || typeof saved!=="object") return emptyData();
+  return {
+   subjects:Array.isArray(saved.subjects)?saved.subjects:[],
+   tasks:Array.isArray(saved.tasks)?saved.tasks:[],
+   classes:Array.isArray(saved.classes)?saved.classes:[],
+   exams:Array.isArray(saved.exams)?saved.exams:[],
+   dark:Boolean(saved.dark)
+  };
+ }catch(e){return emptyData();}
+}
+
+let data=loadData();
+let toastTimer;
+
+function save(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(data));
+ }catch(e){
+  notify("Unable to save. Browser storage may be full.");
+ }
+}
+
+function el(id){return document.getElementById(id);}
+
+function esc(value){
+ return String(value).replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",
+  '"':"&quot;","'":"&#39;"
+ })[c]);
+}
+
+function notify(message){
+ const box=el("toast");
+ box.textContent=message;
+ box.style.display="block";
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>box.style.display="none",2500);
+}
+
+function uid(){
+ return Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+}
+
+function validDate(value){
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+ const d=new Date(value+"T00:00:00");
+ return !Number.isNaN(d.getTime()) &&
+  d.toISOString().slice(0,10)===value;
+}
+
+function fmtDate(value){
+ if(!validDate(value)) return "Invalid date";
+ return new Date(value+"T00:00:00").toLocaleDateString(
+  undefined,{day:"numeric",month:"short",year:"numeric"}
+ );
+}
+
+function daysLeft(value){
+ const now=new Date();
+ now.setHours(0,0,0,0);
+ return Math.round(
+  (new Date(value+"T00:00:00")-now)/86400000
+ );
+}
+
+function percent(s){
+ return s.total ? Math.round(s.attended/s.total*100):0;
+}
+
+/* NAVIGATION */
+
+const pages=[
+ ["dashboard","🏠 Dashboard"],
+ ["attendance","📊 Attendance"],
+ ["assignments","📝 Assignments"],
+ ["timetable","📅 Timetable"],
+ ["exams","🎯 Exams"],
+ ["settings","⚙️ Settings"]
+];
+
+function buildNavigation(){
+ const make=(target,label)=>`
+  <button class="nav-btn ${target==="dashboard"?"active":""}"
+  onclick="go('${target}')">${label}</button>`;
+
+ el("sidebar").innerHTML=pages.map(p=>make(...p)).join("");
+ el("mobileNav").innerHTML=pages.map(p=>make(...p)).join("");
+}
+
+function go(page){
+ document.querySelectorAll(".page").forEach(p=>
+  p.classList.toggle("active",p.id===page)
+ );
+ document.querySelectorAll(".nav-btn").forEach(b=>
+  b.classList.toggle("active",
+   b.getAttribute("onclick")===`go('${page}')`)
+ );
+ renderAll();
+ window.scrollTo(0,0);
+}
+
+/* THEME */
+
+function applyTheme(){
+ document.body.classList.toggle("dark",data.dark);
+}
+
+function toggleTheme(){
+ data.dark=!data.dark;
+ applyTheme();
+ save();
+}
+
+/* ATTENDANCE */
+
+function resetSubjectForm(){
+ ["subName","subTotal","subPresent"].forEach(id=>el(id).value="");
+ el("subTarget").value=75;
+ el("subEdit").value="";
+ el("subjectFormTitle").textContent="Add new subject";
+}
+
+function saveSubject(){
+ const name=el("subName").value.trim();
+ const total=Number(el("subTotal").value);
+ const attended=Number(el("subPresent").value);
+ const target=Number(el("subTarget").value);
+ const edit=el("subEdit").value;
+
+ if(!name || !Number.isInteger(total) ||
+    !Number.isInteger(attended) || total<1 ||
+    attended<0 || attended>total ||
+    !Number.isFinite(target) || target<1 || target>100){
+  notify("Please enter valid subject details.");
+  return;
+ }
+
+ const subject={
+  name,total,attended,target
+ };
+
+ if(edit){
+  const index=data.subjects.findIndex(s=>s.id===edit);
+  if(index>=0) data.subjects[index]={...data.subjects[index],...subject};
+ }else{
+  data.subjects.push({id:uid(),...subject});
+ }
+
+ save();
+ resetSubjectForm();
+ renderAll();
+ notify("Subject saved successfully.");
+}
+
+function editSubject(id){
+ const s=data.subjects.find(x=>x.id===id);
+ if(!s)return;
+ el("subName").value=s.name;
+ el("subTotal").value=s.total;
+ el("subPresent").value=s.attended;
+ el("subTarget").value=s.target||75;
+ el("subEdit").value=id;
+ el("subjectFormTitle").textContent="Edit subject";
+ window.scrollTo(0,0);
+}
+
+function deleteSubject(id){
+ if(!confirm("Delete this subject?"))return;
+ data.subjects=data.subjects.filter(s=>s.id!==id);
+ save();renderAll();notify("Subject deleted.");
+}
+
+function renderSubjects(){
+ const list=el("subjectList");
+ if(!data.subjects.length){
+  list.innerHTML='<div class="empty">No subjects yet. Add your first subject above.</div>';
+  return;
+ }
+ list.innerHTML=data.subjects.map(s=>{
+  const p=percent(s);
+  const target=s.target||75;
+  const need=Math.max(0,Math.ceil((target*s.total-s.attended*100)/(100-target)));
+  return `
+   <div class="item">
+    <div class="item-top">
+     <strong>${esc(s.name)}</strong>
+     <span class="tag ${p>=target?"green":"red"}">${p}% attendance</span>
+    </div>
+    <div class="muted small">${s.attended} attended out of ${s.total} classes · Target ${target}%</div>
+    <div class="progress"><div class="bar" style="width:${p}%"></div></div>
+    <div class="muted small">
+     ${p>=target?"You have reached your target.":`Attend approximately ${need} consecutive classes to reach your target, assuming no more absences.`}
+    </div>
+    <div class="actions" style="margin-top:10px">
+     <button class="btn btn-secondary btn-small" onclick="editSubject('${s.id}')">Edit</button>
+     <button class="btn btn-danger btn-small" onclick="deleteSubject('${s.id}')">Delete</button>
+    </div>
+   </div>`;
+ }).join("");
+}
+
+/* ASSIGNMENTS */
+
+function resetTaskForm(){
+ ["taskName","taskSubject","taskDate"].forEach(id=>el(id).value="");
+ el("taskEdit").value="";
+ el("taskFormTitle").textContent="Create assignment";
+}
+
+function saveTask(){
+ const name=el("taskName").value.trim();
+ const subject=el("taskSubject").value.trim();
+ const date=el("taskDate").value;
+ const edit=el("taskEdit").value;
+
+ if(!name||!subject||!validDate(date)){
+  notify("Please enter valid assignment details.");
+  return;
+ }
+
+ const task={name,subject,date};
+ if(edit){
+  const index=data.tasks.findIndex(t=>t.id===edit);
+  if(index>=0)data.tasks[index]={...data.tasks[index],...task};
+ }else{
+  data.tasks.push({id:uid(),...task,completed:false});
+ }
+
+ save();resetTaskForm();renderAll();notify("Assignment saved.");
+}
+
+function editTask(id){
+ const t=data.tasks.find(x=>x.id===id);
+ if(!t)return;
+ el("taskName").value=t.name;
+ el("taskSubject").value=t.subject;
+ el("taskDate").value=t.date;
+ el("taskEdit").value=id;
+ el("taskFormTitle").textContent="Edit assignment";
+ window.scrollTo(0,0);
+}
+
+function toggleTask(id){
+ const t=data.tasks.find(x=>x.id===id);
+ if(!t)return;
+ t.completed=!t.completed;
+ save();renderAll();
+}
+
+function deleteTask(id){
+ if(!confirm("Delete this assignment?"))return;
+ data.tasks=data.tasks.filter(t=>t.id!==id);
+ save();renderAll();notify("Assignment deleted.");
+}
+
+function renderTasks(){
+ const list=el("taskList");
+ const search=el("taskSearch").value.toLowerCase();
+ const filter=el("taskFilter").value;
+
+ const tasks=data.tasks.filter(t=>
+  (t.name+" "+t.subject).toLowerCase().includes(search)&&
+  (filter==="all"||(filter==="pending"&&!t.completed)||
+   (filter==="completed"&&t.completed))
+ ).sort((a,b)=>a.date.localeCompare(b.date));
+
+ if(!tasks.length){
+  list.innerHTML='<div class="empty">No matching assignments.</div>';
+  return;
+ }
+
+ list.innerHTML=tasks.map(t=>{
+  const days=daysLeft(t.date);
+  const deadline=t.completed?"Completed":
+   days<0?"Overdue":days===0?"Due today":days+" days left";
+
+  return `
+   <div class="item">
+    <div class="item-top">
+     <strong>${esc(t.name)}</strong>
+     <span class="tag ${t.completed?"green":days<0?"red":""}">${deadline}</span>
+    </div>
+    <p class="muted small">${esc(t.subject)} · ${fmtDate(t.date)}</p>
+    <div class="actions">
+     <button class="btn btn-secondary btn-small"
+      onclick="toggleTask('${t.id}')">
+      ${t.completed?"Mark pending":"Mark completed"}
+     </button>
+     <button class="btn btn-secondary btn-small"
+      onclick="editTask('${t.id}')">Edit</button>
+     <button class="btn btn-danger btn-small"
+      onclick="deleteTask('${t.id}')">Delete</button>
+    </div>
+   </div>`;
+ }).join("");
+}
+
+/* TIMETABLE */
+
+function resetClassForm(){
+ ["className","classTime","classEnd"].forEach(id=>el(id).value="");
+ el("classEdit").value="";
+ el("classFormTitle").textContent="Add a class";
+ el("classDay").value="Monday";
+}
+
+function saveClass(){
+ const name=el("className").value.trim();
+ const day=el("classDay").value;
+ const time=el("classTime").value;
+ const end=el("classEnd").value;
+ const edit=el("classEdit").value;
+
+ if(!name||!time||!end||end<=time){
+  notify("Enter a valid class and time range.");
+  return;
+ }
+
+ const overlap=data.classes.some(c=>
+  c.id!==edit&&c.day===day&&
+  time<c.end&&end>c.time
+ );
+
+ if(overlap){
+  notify("This class overlaps another class.");
+  return;
+ }
+
+ const item={name,day,time,end};
+ if(edit){
+  const index=data.classes.findIndex(c=>c.id===edit);
+  if(index>=0)data.classes[index]={...data.classes[index],...item};
+ }else{
+  data.classes.push({id:uid(),...item});
+ }
+
+ save();resetClassForm();renderAll();notify("Class saved.");
+}
+
+function editClass(id){
+ const c=data.classes.find(x=>x.id===id);
+ if(!c)return;
+ el("className").value=c.name;
+ el("classDay").value=c.day;
+ el("classTime").value=c.time;
+ el("classEnd").value=c.end;
+ el("classEdit").value=id;
+ el("classFormTitle").textContent="Edit class";
+ window.scrollTo(0,0);
+}
+
+function deleteClass(id){
+ if(!confirm("Delete this class?"))return;
+ data.classes=data.classes.filter(c=>c.id!==id);
+ save();renderAll();notify("Class deleted.");
+}
+
+function renderClasses(){
+ const list=el("classList");
+ const days=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+
+ if(!data.classes.length){
+  list.innerHTML='<div class="empty">Your timetable is empty.</div>';
+  return;
+ }
+
+ list.innerHTML=days.map(day=>{
+  const classes=data.classes.filter(c=>c.day===day)
+   .sort((a,b)=>a.time.localeCompare(b.time));
+  if(!classes.length)return "";
+  return `
+   <div class="item">
+    <h3>${day}</h3>
+    ${classes.map(c=>`
+     <div class="item-top" style="padding:8px 0">
+      <div>
+       <strong>${esc(c.name)}</strong>
+       <div class="muted small">${c.time} – ${c.end}</div>
+      </div>
+      <div class="actions">
+       <button class="btn btn-secondary btn-small" onclick="editClass('${c.id}')">Edit</button>
+       <button class="btn btn-danger btn-small" onclick="deleteClass('${c.id}')">Delete</button>
+      </div>
+     </div>`).join("")}
+   </div>`;
+ }).join("");
+}
+
+/* EXAMS */
+
+function resetExamForm(){
+ ["examName","examSubject","examDate"].forEach(id=>el(id).value="");
+ el("examEdit").value="";
+ el("examFormTitle").textContent="Add an examination";
+}
+
+function saveExam(){
+ const name=el("examName").value.trim();
+ const subject=el("examSubject").value.trim();
+ const date=el("examDate").value;
+ const edit=el("examEdit").value;
+
+ if(!name||!subject||!validDate(date)){
+  notify("Please enter valid exam details.");
+  return;
+ }
+
+ const exam={name,subject,date};
+ if(edit){
+  const index=data.exams.findIndex(e=>e.id===edit);
+  if(index>=0)data.exams[index]={...data.exams[index],...exam};
+ }else{
+  data.exams.push({id:uid(),...exam});
+ }
+
+ save();resetExamForm();renderAll();notify("Exam saved.");
+}
+
+function editExam(id){
+ const e=data.exams.find(x=>x.id===id);
+ if(!e)return;
+ el("examName").value=e.name;
+ el("examSubject").value=e.subject;
+ el("examDate").value=e.date;
+ el("examEdit").value=id;
+ el("examFormTitle").textContent="Edit examination";
+ window.scrollTo(0,0);
+}
+
+function deleteExam(id){
+ if(!confirm("Delete this exam?"))return;
+ data.exams=data.exams.filter(e=>e.id!==id);
+ save();renderAll();notify("Exam deleted.");
+}
+
+function renderExams(){
+ const list=el("examList");
+ const exams=[...data.exams].sort((a,b)=>a.date.localeCompare(b.date));
+
+ if(!exams.length){
+  list.innerHTML='<div class="empty">No examinations added.</div>';
+  return;
+ }
+
+ list.innerHTML=exams.map(e=>{
+  const d=daysLeft(e.date);
+  return `
+   <div class="item item-top">
+    <div>
+     <strong>${esc(e.name)}</strong>
+     <p class="muted small">${esc(e.subject)} · ${fmtDate(e.date)}</p>
+     <span class="tag ${d<0?"red":d===0?"green":""}">
+      ${d<0?"Date passed":d===0?"Exam today":d+" days remaining"}
+     </span>
+    </div>
+    <div class="actions">
+     <button class="btn btn-secondary btn-small" onclick="editExam('${e.id}')">Edit</button>
+     <button class="btn btn-danger btn-small" onclick="deleteExam('${e.id}')">Delete</button>
+    </div>
+   </div>`;
+ }).join("");
+}
+
+/* DASHBOARD */
+
+function renderDashboard(){
+ el("sSubjects").textContent=data.subjects.length;
+ el("sTasks").textContent=data.tasks.filter(t=>!t.completed).length;
+
+ const average=data.subjects.length?
+  Math.round(data.subjects.reduce((sum,s)=>sum+percent(s),0)/data.subjects.length):0;
+
+ el("sAttendance").textContent=average+"%";
+
+ const upcoming=data.exams.filter(e=>daysLeft(e.date)>=0);
+ el("sExams").textContent=upcoming.length;
+
+ el("dashAttendance").innerHTML=data.subjects.length?
+  data.subjects.map(s=>`
+   <div class="item">
+    <div class="item-top">
+     <strong>${esc(s.name)}</strong>
+     <span>${percent(s)}%</span>
+    </div>
+    <div class="progress"><div class="bar" style="width:${percent(s)}%"></div></div>
+   </div>`).join("")
+  :'<div class="empty">Add your first subject.</div>';
+
+ const pending=data.tasks.filter(t=>!t.completed)
+  .sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
+
+ el("dashTasks").innerHTML=pending.length?
+  pending.map(t=>`
+   <div class="item">
+    <strong>${esc(t.name)}</strong>
+    <p class="muted small">${esc(t.subject)} · ${fmtDate(t.date)}</p>
+   </div>`).join("")
+  :'<div class="empty">No pending tasks 🎉</div>';
+
+ const exams=upcoming.sort((a,b)=>a.date.localeCompare(b.date)).slice(0,5);
+
+ el("dashExams").innerHTML=exams.length?
+  exams.map(e=>`
+   <div class="item item-top">
+    <div>
+     <strong>${esc(e.name)}</strong>
+     <p class="muted small">${esc(e.subject)}</p>
+    </div>
+    <span class="tag">${daysLeft(e.date)} days left</span>
+   </div>`).join("")
+  :'<div class="empty">No upcoming examinations.</div>';
+}
+
+/* BACKUP AND RESTORE */
+
+function backupData(){
+ const blob=new Blob([JSON.stringify(data,null,2)],{
+  type:"application/json"
+ });
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;
+ a.download="StudentDesk-Backup.json";
+ a.click();
+ URL.revokeObjectURL(url);
+ notify("Backup downloaded.");
+}
+
+function restoreData(){
+ const file=el("restoreFile").files[0];
+ if(!file){notify("Choose a backup file first.");return;}
+
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const obj=JSON.parse(reader.result);
+
+   if(!obj||!Array.isArray(obj.subjects)||
+      !Array.isArray(obj.tasks)||!Array.isArray(obj.classes)||
+      !Array.isArray(obj.exams)){
+    throw new Error("Invalid backup");
+   }
+
+   if(!confirm("Replace current data with this backup?"))return;
+
+   data={
+    subjects:obj.subjects,
+    tasks:obj.tasks,
+    classes:obj.classes,
+    exams:obj.exams,
+    dark:Boolean(obj.dark)
+   };
+
+   save();applyTheme();renderAll();
+   notify("Backup restored.");
+  }catch(e){
+   notify("Invalid or unsupported backup file.");
+  }
+ };
+ reader.readAsText(file);
+}
+
+/* RESET */
+
+function resetApp(){
+ if(!confirm("Delete ALL StudentDesk data? This cannot be undone."))return;
+ data=emptyData();
+ save();
+ applyTheme();
+ resetSubjectForm();
+ resetTaskForm();
+ resetClassForm();
+ resetExamForm();
+ renderAll();
+ notify("Application reset.");
+}
+
+/* START */
+
+function renderAll(){
+ renderDashboard();
+ renderSubjects();
+ renderTasks();
+ renderClasses();
+ renderExams();
+}
+
+buildNavigation();
+applyTheme();
+renderAll();
+</script>
+</body>
+</html>
